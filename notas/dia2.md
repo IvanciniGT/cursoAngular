@@ -44,5 +44,6 @@ Opciones que tenemos para resolver esta situación: 3 opciones diferentes:
     A esa promesa en un momento dado le puedo pedir el valor...
         Lo que ocurrirá es que la promesa podrá o no tener todavía un valor asignado.
 - **Observables** (Patrón listener - subscripcion)
+    La diferencia con el patr´0on promise es que un observable puede ir cambindo de valor según pasa el tiempo
 - Callback
     A función a la que llamo, le paso otra función que deberá invocarme cuando termine su trabjo en el futuro.

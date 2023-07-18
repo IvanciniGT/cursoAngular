@@ -3,9 +3,7 @@ import { Usuario } from "../../models/user.model";
 import { ServicioUsuarios } from "../usuarios.service";
 import { Injectable } from "@angular/core";
 
-@Injectable({
-    providedIn: 'root',
-  })
+@Injectable()
 // Al poner este decorador, angular va a suministrar una instancia de este objeto cuando 
 // alguien pida un: ServicioUsuariosImpl o un: ServicioUsuarios
 // Quien genera la instancia de esta clase? YO? 
@@ -39,8 +37,18 @@ export class ServicioUsuariosMock implements ServicioUsuarios{
     }
 
     getUsuario(id:number):Observable<Usuario>{
-       return new Observable( (suscriptor) => {
-            setTimeout( ()=>suscriptor.next(this.listadoUsuarios[id-1]), 5000 )
-        });
+       if (id<= this.listadoUsuarios.length) {
+        return new Observable( (suscriptor) => {
+                setTimeout( ()=>suscriptor.next(this.listadoUsuarios[id-1]), 400 )
+                setTimeout( ()=>suscriptor.complete(), 800 )
+            });
+        } else {
+            return new Observable( (suscriptor) => {
+                setTimeout( ()=>suscriptor.error("Datos no conseguidos."), 1000 )
+            });
+        }
+        // Un observer podrá llamar a next todas las veces que quiera...
+        // Para acabar con un .complete() o un .error()
+        /// Una vez llamas a cualquiera de esas funciones, el observer no podrá recibir ninguna notificacion adicional.
     }
 }

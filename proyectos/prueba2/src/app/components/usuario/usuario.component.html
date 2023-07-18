@@ -1,4 +1,4 @@
-<div class="usuario" *ngIf="this.datosUsuario; else esperando">
+<div class="usuario" *ngIf="this.datosUsuario"> <!--; else esperando">-->
     
     <div class="avatar">FOTO DEL USUARIO :)</div>
 
@@ -11,7 +11,15 @@
 
 </div>
 
+<div class="usuario" *ngIf="this.errorMessage">
+    Ups !!! {{ this.errorMessage }}
+</div>
 
-<ng-template #esperando>
+
+<!--ng-template #esperando>
     <div>Esperando los datos del usuario</div>
-</ng-template>
+</ng-template-->
+
+<div *ngIf="!this.errorMessage && !this.datosUsuario" >Esperando los datos del usuario</div>
+
+
