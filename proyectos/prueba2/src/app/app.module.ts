@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './components/app/app.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { AsincronoComponent } from './components/asincrono/asincrono.component';
+import { ServicioUsuariosMock } from './services/impl/usuarios.service.mock';
+import { ServicioUsuarios } from './services/usuarios.service';
 
 @NgModule({
   // Aquí definiremos nuestros propios componentes web (nuestras marcas HTML personalizadas)
@@ -19,7 +21,9 @@ import { AsincronoComponent } from './components/asincrono/asincrono.component';
   ],
   // Servicios que necesitamos para que nuestra aplicación funcione
   // Por ejemplo: quiero tener TAL suministrador de diccionarios
-  providers: [],
+  providers: [{ provide: ServicioUsuarios, useClass: ServicioUsuariosMock}], // Aqui estamos configurando la Inyección de dependencias
+                                    // Eso funcionaría si esa clase se fuese a pedir tal cual
+  
   // Componentes que vamos a iniciar cuando se cargue la aplicación
   bootstrap: [AppComponent]
 })

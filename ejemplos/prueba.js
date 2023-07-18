@@ -65,3 +65,16 @@ dato = 'hola';
 dato = false;
 
 // En JS usamos un concepto que es el Duck Typing.
+
+
+
+let valor = undefined;
+
+// Mira si existe el valor...
+    // Si el valor es un boolean, además si vale true
+    // Si no es booleano, solo se mira que exista el valor
+if (valor)
+    console.log("Tengo un valor")
+
+if (valor !== undefined)
+    console.log("Tengo un valor")

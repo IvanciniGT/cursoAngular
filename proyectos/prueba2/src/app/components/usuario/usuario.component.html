@@ -1,15 +1,17 @@
-<div class="usuario">
+<div class="usuario" *ngIf="this.datosUsuario; else esperando">
+    
     <div class="avatar">FOTO DEL USUARIO :)</div>
+
     <div class="datos">
-        <div class="nombre">Ivan</div>
-        <div class="apellido">Gonzalez</div>
-        <div class="edad">25</div>
-        <div class="email">ivan@ivan.com</div>
+        <div class="nombre">{{ this.datosUsuario.nombre }}</div>
+        <div class="apellido">{{ this.datosUsuario.apellidos }}</div>
+        <div class="edad">{{ this.datosUsuario.edad }}</div>
+        <div class="email">{{ this.datosUsuario.email }}</div>
     </div>
 
-    <div>{{ textoAMostrarMediantePromesa }}</div>
-    <div>{{ textoAMostrarMedianteCallback }}</div>
-    <div>{{ textoAMostrarMedianteObservable }}</div>
-    
-
 </div>
+
+
+<ng-template #esperando>
+    <div>Esperando los datos del usuario</div>
+</ng-template>

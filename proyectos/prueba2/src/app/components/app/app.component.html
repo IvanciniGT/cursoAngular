@@ -1,12 +1,16 @@
-<usuario></usuario> <!-- lo que está ocurriendo por abajo es new UsuarioComponent()-->
-
-<hr/>
-
-<usuario></usuario>
-
-<hr/>
-
-<usuario></usuario>
+<!--
+    Si un atributo no lo ponemos entre corchetes, angular lo toma como un texto!
+    Para trabajar con otros tipos de datos, es necesario poner el nombre
+    del atributo entre corchetes
+-->
+<usuario [id]="1+2"></usuario> 
+<usuario [id]="1"></usuario> 
+<!-- 
+    lo que está ocurriendo por abajo es new UsuarioComponent()
+    quién escribe ese código... (alguien lo tendrá que escribir)? ANGULAR
+    Y al hacerlo, mirará si la clase está pidiendo datos en el constructor
+     ... y de ser así intentará suministrárselos.
+-->
 
 <hr/>
 
