@@ -18,6 +18,9 @@ export class UsuarioComponent implements OnInit {
     @Input() // Este dato, sácalo de un atributo de la marca HTML <usuario id="121212"/>
     id!: number;
 
+    @Input() 
+    editable: boolean = false;
+
     constructor(private servicioUsuarios: ServicioUsuarios) { // Solicito la Inyección de dependencias
         // El private os evita tener que declarar la propiedad arribita(1) y hacer aqui abajo la asignación (2)
 
@@ -47,6 +50,10 @@ export class UsuarioComponent implements OnInit {
             })
 
 
+    }
+
+    log(mensaje:string) : void{
+        alert(mensaje)
     }
 
 }

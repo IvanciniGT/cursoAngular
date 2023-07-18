@@ -1,0 +1,12 @@
+<div class="modificar"
+    *ngIf="!this.apretadoEnModificar()">
+    <button 
+        (click)="this.clickEnModificar()"> MODIFICAR </button>
+</div>
+<div class="modificar"
+    *ngIf="this.apretadoEnModificar()">
+    <button
+        (click)="this.clickEnGuardar()"> GUARDAR </button>
+    <button
+        (click)="this.clickEnCancelar()"> CANCELAR </button>
+</div>

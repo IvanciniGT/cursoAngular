@@ -47,3 +47,65 @@ Opciones que tenemos para resolver esta situación: 3 opciones diferentes:
     La diferencia con el patr´0on promise es que un observable puede ir cambindo de valor según pasa el tiempo
 - Callback
     A función a la que llamo, le paso otra función que deberá invocarme cuando termine su trabjo en el futuro.
+
+---
+
+Queremos tener un botón "MODIFICAR" (DATOS DEL USUARIO)
+Ese botón se mostrará cuando me pase el atributo editable="true"
+
+Si aprietan a ese botón:
+PASO 1: Ese botón debe desaparecer... y en su lugar aparecer otros 2 botones:
+    GUARDAR / CANCELAR
+    Cualquiera de ellos, al pulsarse deberán ocultar estos 2 botones 
+    y volver a mostrar el de Modificar
+PASO 2: la representación debe cambiarse por un formulario
+
+---
+
+Comunicación entre componentes
+
+    APP COMPONENT
+    ----------------------
+    :) Usuario 1
+    :( Usuario 2
+    ----------------------
+
+        vvvvv     Tenemos una comunicación de PADRE A HIJO
+                    APP COMPONENT ---> ID ----> Usuario Component
+                    Hemos resuelto esta comunicación mediante? Mediante atributos html
+
+    Usuario COMPONENT
+    -----------------------------------------------------
+     |||||   |  Nombre:                    | MODIFICAR |     <<< Si es editable
+     O   O   |  Apellidos:
+       o     |  Edad:
+     \---/   |  Email:
+    ------------------------------------------------------
+
+        vvvvv En este caso el componente padre, no necesita pasar nada al hijo.
+              Y el hijo al padre? 
+                - Cuando apretemos en MODIFICAR, hay que avisar al padre
+                - Cuando apretemos en GUARDAR,  hay que avisar al padre
+                - Cuando apretemos en CANCELAR , hay que avisar al padre
+
+            En este caso tenemos comunicaciones por un tubo, de hijo a padre!
+            que vamos a resolver mediante: EVENTOS !!!!
+
+    MODIFICAR COMPONENT
+    ----------------        --------------------
+       MODIFICAR        =>   GUARDAR   CANCELAR
+    ----------------        --------------------
+
+
+<button onClick="">
+        ^^^
+        EVENTO que se lanza y que se procesa por una función
+
+
+Con este ejemplo sabremos realizar comunicaciones de padre a hijo.... y de hijo a padre
+Habrá algún otro tipo de comunicación que necesite montar en una app?  SI
+Comunicaciones entre componentes que no estén relacionados entre si
+    Y AHI... será otra guerra MUY DIFERENTE !
+    Para resolver este escenario echaremos mano de una librería que existe en JS
+    precisamente para resolver este problema... no una librería... LA LIBRERIA
+    Que usamos no solo en Angular, también en REACT, VUE.... =  REDUX

@@ -6,12 +6,14 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { AsincronoComponent } from './components/asincrono/asincrono.component';
 import { ServicioUsuariosMock } from './services/impl/usuarios.service.mock';
 import { ServicioUsuarios } from './services/usuarios.service';
+import { ModificarBtnComponent } from './components/modificarbtn/modificar.btn.component';
 
 @NgModule({
   // Aquí definiremos nuestros propios componentes web (nuestras marcas HTML personalizadas)
   declarations: [
     AppComponent,
     UsuarioComponent,
+    ModificarBtnComponent,
     AsincronoComponent
   ],// Esto es lo que va a permitir que a partir de ahora, en los HTML pueda
     // empezar a usar la marca <usuario>
