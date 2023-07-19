@@ -21,6 +21,9 @@ export class UsuarioComponent implements OnInit {
     @Input() 
     editable: boolean = false;
 
+    @Input() 
+    borrable: boolean = false;
+
     constructor(private servicioUsuarios: ServicioUsuarios) { // Solicito la Inyección de dependencias
         // El private os evita tener que declarar la propiedad arribita(1) y hacer aqui abajo la asignación (2)
 
@@ -48,8 +51,6 @@ export class UsuarioComponent implements OnInit {
                     }
                 }
             })
-
-
     }
 
     log(mensaje:string) : void{

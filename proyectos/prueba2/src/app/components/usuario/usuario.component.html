@@ -1,10 +1,20 @@
 <div class="usuario" *ngIf="this.datosUsuario"> <!--; else esperando">-->
     
-    <modificar-btn *ngIf="this.editable"
-        (onModificar) = "this.log('Modificando')"
-        (onCancelar) = "this.log('Cancelando')"
-        (onGuardar) = "this.log('Guardando')"
-    ></modificar-btn>
+    <accion-confirmable *ngIf="this.editable"
+        (onAccionSolicitada) = "this.log('Modificando')"
+        (onAccionCancelada) = "this.log('Cancelada modificacion')"
+        (onAccionConfirmada) = "this.log('Confirmada modificacion')"
+        mensajeAccion = "Modificar"
+        mensajeConfirmacion = "Guardar"
+        mensajeCancelacion = "Cancelar" />
+
+    <accion-confirmable *ngIf="this.borrable"
+        (onAccionSolicitada) = "this.log('Borrando')"
+        (onAccionCancelada) = "this.log('Cancelando borrado')"
+        (onAccionConfirmada) = "this.log('Confirmado borrado')"
+        mensajeAccion = "Borrar"
+        mensajeConfirmacion = "Confirmar"
+        mensajeCancelacion = "Cancelar" />
 
     <div class="avatar">FOTO DEL USUARIO :)</div>
 
