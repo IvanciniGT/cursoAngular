@@ -1,6 +1,6 @@
 <div class="usuario" *ngIf="this.datosUsuario"> <!--; else esperando">-->
     
-    <accion-confirmable *ngIf="this.editable && this.estado() != Estados.EN_BORRADO"
+    <accion-confirmable *ngIf="this.editable && this.estado != Estados.EN_BORRADO"
         actionId="edicion"
         (onAccionSolicitada) = "this.cambiarEstado($event)"
         (onAccionCancelada) = "this.cambiarEstado($event)"
@@ -9,7 +9,7 @@
         mensajeConfirmacion = "Guardar"
         mensajeCancelacion = "Cancelar" />
 
-    <accion-confirmable *ngIf="this.borrable && this.estado() != Estados.EN_MODIFICACION"
+    <accion-confirmable *ngIf="this.borrable && this.estado != Estados.EN_MODIFICACION"
         actionId="borrado"
         (onAccionSolicitada) = "this.cambiarEstado($event)"
         (onAccionCancelada) = "this.cambiarEstado($event)"

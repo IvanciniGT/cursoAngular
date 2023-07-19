@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from 'src/app/models/user.model';
 //import { ServicioUsuariosImpl } from 'src/app/services/impl/usuarios.service.impl';
 import { ServicioUsuarios } from 'src/app/services/usuarios.service';
 import { AccionCanceladaEvent, AccionConfirmadaEvent, AccionSolicitadaEvent } from '../accion-confirmable/accion.confirmable.events';
+import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBorradoSolicitadoEvent, UsuarioModificacionCanceladaEvent, UsuarioModificacionConfirmadaEvent, UsuarioModificacionSolicitadaEvent } from './usuario.events';
 
 enum EstadoDelComponente {
     NORMAL,
@@ -34,6 +35,24 @@ export class UsuarioComponent implements OnInit {
     @Input() 
     borrable: boolean = false;
 
+    @Output()
+    onModificacionSolicitada = new EventEmitter<UsuarioModificacionSolicitadaEvent>();
+
+    @Output()
+    onModificacionConfirmada = new EventEmitter<UsuarioModificacionConfirmadaEvent>();
+
+    @Output()
+    onModificacionCancelada = new EventEmitter<UsuarioModificacionCanceladaEvent>();
+
+    @Output()
+    onBorradoSolicitado = new EventEmitter<UsuarioBorradoSolicitadoEvent>();
+
+    @Output()
+    onBorradoConfirmado = new EventEmitter<UsuarioBorradoConfirmadoEvent>();
+
+    @Output()
+    onBorradoCancelado = new EventEmitter<UsuarioBorradoCanceladoEvent>();
+
     constructor(private servicioUsuarios: ServicioUsuarios) { // Solicito la Inyección de dependencias
         // El private os evita tener que declarar la propiedad arribita(1) y hacer aqui abajo la asignación (2)
 
@@ -63,21 +82,21 @@ export class UsuarioComponent implements OnInit {
             })
     }
 
-    estado():EstadoDelComponente{
+    get estado():EstadoDelComponente{
         return this.#estado
     }
 
     // MAQUINA DE ESTADOS FINITOS
     cambiarEstado(event:any) : void{
-        switch(this.#estado){
+        switch(this.estado){
             case EstadoDelComponente.NORMAL:
                 if (event instanceof AccionSolicitadaEvent){
                     if( event.actionId === "borrado" ){
                         this.#estado =EstadoDelComponente.EN_BORRADO
-                        // LANZAR UN EVENTO
+                        return this.onBorradoSolicitado.emit(new UsuarioBorradoSolicitadoEvent(this.datosUsuario));
                     }else if( event.actionId === "edicion" ){
                         this.#estado =EstadoDelComponente.EN_MODIFICACION
-                        // LANZAR UN EVENTO
+                        return this.onModificacionSolicitada.emit(new UsuarioModificacionSolicitadaEvent(this.datosUsuario));
                     }
                 }
                 break
@@ -85,10 +104,10 @@ export class UsuarioComponent implements OnInit {
                 if( event.actionId === "edicion" ){
                     if (event instanceof AccionCanceladaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
-                        // LANZAR UN EVENTO
+                        return this.onModificacionCancelada.emit(new UsuarioModificacionCanceladaEvent(this.datosUsuario));
                     }else if (event instanceof AccionConfirmadaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
-                        // LANZAR UN EVENTO
+                        return this.onModificacionConfirmada.emit(new UsuarioModificacionConfirmadaEvent(this.datosUsuario));
                     }
                 }
                 break
@@ -96,14 +115,15 @@ export class UsuarioComponent implements OnInit {
                 if( event.actionId === "borrado" ){
                     if (event instanceof AccionCanceladaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
-                        // LANZAR UN EVENTO
+                        return this.onBorradoCancelado.emit(new UsuarioBorradoCanceladoEvent(this.datosUsuario));
                     }else if (event instanceof AccionConfirmadaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
-                        // LANZAR UN EVENTO
+                        return this.onBorradoConfirmado.emit(new UsuarioBorradoConfirmadoEvent(this.datosUsuario));
                     }
                 }
                 break
         }
+        console.error("Evento no soportado en este estado", this.#estado, event)
     }
 
 }
