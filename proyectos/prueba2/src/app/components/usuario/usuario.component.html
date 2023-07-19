@@ -18,14 +18,18 @@
         mensajeConfirmacion = "Confirmar"
         mensajeCancelacion = "Cancelar" />
 
-    <div class="avatar">FOTO DEL USUARIO :)</div>
-
-    <div class="datos">
-        <div class="nombre">{{ this.datosUsuario.nombre }}</div>
-        <div class="apellido">{{ this.datosUsuario.apellidos }}</div>
-        <div class="edad">{{ this.datosUsuario.edad }}</div>
-        <div class="email">{{ this.datosUsuario.email }}</div>
-    </div>
+    <ng-container *ngIf="this.estado != Estados.EN_MODIFICACION; else formulario">
+        <div class="avatar">FOTO DEL USUARIO :)</div>
+        <div class="datos">
+            <div class="nombre">{{ this.datosUsuario.nombre }}</div>
+            <div class="apellido">{{ this.datosUsuario.apellidos }}</div>
+            <div class="edad">{{ this.datosUsuario.edad }}</div>
+            <div class="email">{{ this.datosUsuario.email }}</div>
+        </div>
+    </ng-container>
+    <ng-template #formulario>
+        TODO, pendiente de crear un componente formulario de usuario
+    </ng-template>
 
 </div>
 
