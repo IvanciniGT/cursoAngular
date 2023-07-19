@@ -16,6 +16,8 @@ export class AccionConfirmableComponent {
     mensajeConfirmacion!:string;
     @Input()
     mensajeCancelacion!:string;
+    @Input()
+    actionId!:string;
 
     @Output()
     onAccionSolicitada = new EventEmitter<AccionSolicitadaEvent>();
@@ -28,17 +30,17 @@ export class AccionConfirmableComponent {
 
     clickEnAccion ():void {
         this.hanSolicitadoLaAccion = true;
-        this.onAccionSolicitada.emit(new AccionSolicitadaEvent());
+        this.onAccionSolicitada.emit(new AccionSolicitadaEvent(this.actionId));
     }
 
     clickEnConfirmar ():void {
         this.hanSolicitadoLaAccion = false;
-        this.onAccionConfirmada.emit(new AccionConfirmadaEvent());
+        this.onAccionConfirmada.emit(new AccionConfirmadaEvent(this.actionId));
     }
 
     clickEnCancelar ():void {
         this.hanSolicitadoLaAccion = false;
-        this.onAccionCancelada.emit(new AccionCanceladaEvent());
+        this.onAccionCancelada.emit(new AccionCanceladaEvent(this.actionId));
     }
 
     accionSolicitada(){

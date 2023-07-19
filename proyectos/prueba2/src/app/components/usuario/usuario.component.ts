@@ -3,6 +3,13 @@ import { Observable } from 'rxjs';
 import { Usuario } from 'src/app/models/user.model';
 //import { ServicioUsuariosImpl } from 'src/app/services/impl/usuarios.service.impl';
 import { ServicioUsuarios } from 'src/app/services/usuarios.service';
+import { AccionCanceladaEvent, AccionConfirmadaEvent, AccionSolicitadaEvent } from '../accion-confirmable/accion.confirmable.events';
+
+enum EstadoDelComponente {
+    NORMAL,
+    EN_MODIFICACION,
+    EN_BORRADO
+}
 
 @Component({
     selector: 'usuario',                 // Nombre de la etiqueta HTML que estamos generando
@@ -13,6 +20,9 @@ export class UsuarioComponent implements OnInit {
 
     errorMessage: string | undefined = undefined;
     datosUsuario!: Usuario;
+    #estado:EstadoDelComponente = EstadoDelComponente.NORMAL;
+    readonly Estados = EstadoDelComponente
+
     //servicioUsuarios!: ServicioUsuarios; (1)
 
     @Input() // Este dato, sácalo de un atributo de la marca HTML <usuario id="121212"/>
@@ -53,8 +63,47 @@ export class UsuarioComponent implements OnInit {
             })
     }
 
-    log(mensaje:string) : void{
-        alert(mensaje)
+    estado():EstadoDelComponente{
+        return this.#estado
+    }
+
+    // MAQUINA DE ESTADOS FINITOS
+    cambiarEstado(event:any) : void{
+        switch(this.#estado){
+            case EstadoDelComponente.NORMAL:
+                if (event instanceof AccionSolicitadaEvent){
+                    if( event.actionId === "borrado" ){
+                        this.#estado =EstadoDelComponente.EN_BORRADO
+                        // LANZAR UN EVENTO
+                    }else if( event.actionId === "edicion" ){
+                        this.#estado =EstadoDelComponente.EN_MODIFICACION
+                        // LANZAR UN EVENTO
+                    }
+                }
+                break
+            case EstadoDelComponente.EN_MODIFICACION:
+                if( event.actionId === "edicion" ){
+                    if (event instanceof AccionCanceladaEvent){
+                        this.#estado =EstadoDelComponente.NORMAL
+                        // LANZAR UN EVENTO
+                    }else if (event instanceof AccionConfirmadaEvent){
+                        this.#estado =EstadoDelComponente.NORMAL
+                        // LANZAR UN EVENTO
+                    }
+                }
+                break
+            case EstadoDelComponente.EN_BORRADO:
+                if( event.actionId === "borrado" ){
+                    if (event instanceof AccionCanceladaEvent){
+                        this.#estado =EstadoDelComponente.NORMAL
+                        // LANZAR UN EVENTO
+                    }else if (event instanceof AccionConfirmadaEvent){
+                        this.#estado =EstadoDelComponente.NORMAL
+                        // LANZAR UN EVENTO
+                    }
+                }
+                break
+        }
     }
 
 }
