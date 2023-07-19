@@ -1,13 +1,13 @@
 <div class="modificar"
     *ngIf="!this.accionSolicitada()">
     <button 
-        (click)="this.clickEnAccion()"> {{ this.mensajeAccion }} </button>
+        (click)="this.clickEnAccion($event)"> {{ this.mensajeAccion }} </button>
 </div>
 
 <div class="modificar"
     *ngIf="this.accionSolicitada()">
     <button
-        (click)="this.clickEnConfirmar()"> {{ this.mensajeConfirmacion }} </button>
+        (click)="this.clickEnConfirmar($event)"> {{ this.mensajeConfirmacion }} </button>
     <button
-        (click)="this.clickEnCancelar()"> {{ this.mensajeCancelacion }} </button>
+        (click)="this.clickEnCancelar($event)"> {{ this.mensajeCancelacion }} </button>
 </div>

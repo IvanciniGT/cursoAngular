@@ -1,5 +1,7 @@
-<div [ngClass]="['usuario', this.estado != this.Estados.SELECCIONADO ? 'no-seleccionado' : 'seleccionado' ]" *ngIf="this.datosUsuario"
-(click)="this.cambiarEstado($event)"> <!--; else esperando">-->
+<div 
+    [ngClass]="['usuario', this.estado != this.Estados.SELECCIONADO ? 'no-seleccionado' : 'seleccionado' ]" 
+    *ngIf="this.datosUsuario"
+    (click)="this.cambiarEstado($event)"> <!--; else esperando">-->
     
     <accion-confirmable *ngIf="this.editable && this.estado != Estados.EN_BORRADO && this.estado != Estados.SELECCIONADO"
         actionId="edicion"
