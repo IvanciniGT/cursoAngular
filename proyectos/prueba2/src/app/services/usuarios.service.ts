@@ -8,5 +8,6 @@ export abstract class ServicioUsuarios {
     abstract getUsuario(id:number):Observable<Usuario>;
     //getUsuario(id:number):Promise<Usuario>;
     //getUsuario(id:number, callback:(usuario:Usuario) => void):void;
+    abstract getUsuarios():Observable<Array<Usuario>>;
 
 }

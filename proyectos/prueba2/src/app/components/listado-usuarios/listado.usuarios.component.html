@@ -1,0 +1,48 @@
+<div 
+    class="listado-usuarios" 
+    *ngIf="this.datosUsuarios">
+    
+    <!-- Botones
+        Seleccionar todos
+        Seleccionar todos
+        Borrar seleccionados
+     -->
+
+     <!-- El listado de usuarios -->
+     <div *ngFor="let usuario of this.datosUsuarios">
+
+        <usuario
+            [id]="usuario.id"
+            [datosUsuario]="usuario"
+            <!--AVENTURA !
+                Cuando será el usuario editable? 
+                - Que editables sea true
+                - Cuando no haya ninguno seleccionado
+                - Y Cuando no haya ninguno en modificación ( a no ser que sea yo el que está siendo modificado)
+                - Y cuando no haya nadie en borrado
+            -->
+            [editable]=""
+            [borrable]=""
+            [seleccionable]=""
+            <!-- Si el id del usuario está entre? idsUsuariosSeleccionados -->
+            [seleccionado]=
+            
+            [onModificacionSolicitada]=
+            [onModificacionConfirmada]=
+            [onModificacionCancelada]=
+            [onBorradoSolicitado]=
+            [onBorradoConfirmado]=
+            [onBorradoCancelado]=
+            [onSeleccionado]=
+            [onDeseleccionado]=
+        ></usuario>
+
+     </div>
+
+</div>
+
+<div class="listado-usuarios" *ngIf="this.errorMessage">
+    Ups !!! {{ this.errorMessage }}
+</div>
+
+<div class="listado-usuarios"  *ngIf="!this.errorMessage && !this.datosUsuarios" >Esperando los datos de los usuarios</div>

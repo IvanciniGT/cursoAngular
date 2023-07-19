@@ -7,6 +7,7 @@ import { AsincronoComponent } from './components/asincrono/asincrono.component';
 import { ServicioUsuariosMock } from './services/impl/usuarios.service.mock';
 import { ServicioUsuarios } from './services/usuarios.service';
 import { AccionConfirmableComponent } from './components/accion-confirmable/accion.confirmable.component';
+import { ListadoUsuariosComponent } from './components/listado-usuarios/listado.usuarios.component';
 
 @NgModule({
   // Aquí definiremos nuestros propios componentes web (nuestras marcas HTML personalizadas)
@@ -14,7 +15,8 @@ import { AccionConfirmableComponent } from './components/accion-confirmable/acci
     AppComponent,
     UsuarioComponent,
     AccionConfirmableComponent,
-    AsincronoComponent
+    AsincronoComponent,
+    ListadoUsuariosComponent
   ],// Esto es lo que va a permitir que a partir de ahora, en los HTML pueda
     // empezar a usar la marca <usuario>
   // Otros modulos de Angular que necesitamos para que nuestra aplicación funcione

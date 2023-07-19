@@ -35,6 +35,12 @@ export class ServicioUsuariosMock implements ServicioUsuarios{
         usuario.email = email;
         return usuario;
     }
+    getUsuarios():Observable<Array<Usuario>>{
+        return new Observable( (suscriptor) => {
+            setTimeout( ()=>suscriptor.next(this.listadoUsuarios), 400 )
+            setTimeout( ()=>suscriptor.complete(), 800 )
+        });    
+    }
 
     getUsuario(id:number):Observable<Usuario>{
        if (id<= this.listadoUsuarios.length) {

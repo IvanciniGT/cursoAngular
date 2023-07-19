@@ -104,10 +104,32 @@ componente: <listado-usuarios>
     Menchu       Modificar  Borrar  <--|
     Rodrigo      Modificar  Borrar  <--|
 
-    El listado podra tener también unas propiedades 
-        editables = true | false
-        borrables = true | false
-        seleccionables =  true | false
+                Cuando sale? Cuando hay algun seleccionado
+                Y cuando pichan? En que se convierte? CONFIRMAR | CANCELAR
+                    v
+                    v                       Siempre que no estén ya todos seleccionados
+                    v                       v
+                [BORRAR SELECCIONADOS] [SELECCIONAR TODOS] [DESELECCIONAR TODOS]
+
+
+
+El listado podra tener también unas propiedades expuestas como atributos 
+    editables = true | false
+    borrables = true | false
+    seleccionables =  true | false
+
+Tendrá laguna propiedad interna? 
+    Tiene que controlar los usuarios que están seleccionados?
+
+Función en el servicio, para devolver todos los usuarios
+
+En la plantilla HTML
+<div *ngFor="let usuario of USUARIOS">                                              
+    <!--Esto me da acceso a la variable usuario-->
+                    <usuario [id]="usuario.id"> 
+<div>                       
+
+Estados de este componente: SIN_SELECCIONADOS, CON_SELECCIONADOS (TODOS_SELECCIONADOS)
 
 ---
 

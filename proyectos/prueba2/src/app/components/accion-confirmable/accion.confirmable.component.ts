@@ -28,19 +28,19 @@ export class AccionConfirmableComponent {
     @Output()
     onAccionConfirmada = new EventEmitter<AccionConfirmadaEvent>();
 
-    clickEnAccion (event:any):void {
+    clickEnAccion (event:MouseEvent):void {
         this.hanSolicitadoLaAccion = true;
         this.onAccionSolicitada.emit(new AccionSolicitadaEvent(this.actionId));
         event.stopPropagation()
     }
 
-    clickEnConfirmar (event:any):void {
+    clickEnConfirmar (event:MouseEvent):void {
         this.hanSolicitadoLaAccion = false;
         this.onAccionConfirmada.emit(new AccionConfirmadaEvent(this.actionId));
         event.stopPropagation()
     }
 
-    clickEnCancelar (event:any):void {
+    clickEnCancelar (event:MouseEvent):void {
         this.hanSolicitadoLaAccion = false;
         this.onAccionCancelada.emit(new AccionCanceladaEvent(this.actionId));
         event.stopPropagation()
