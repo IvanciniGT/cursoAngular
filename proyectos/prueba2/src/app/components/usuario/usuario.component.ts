@@ -4,12 +4,13 @@ import { Usuario } from 'src/app/models/user.model';
 //import { ServicioUsuariosImpl } from 'src/app/services/impl/usuarios.service.impl';
 import { ServicioUsuarios } from 'src/app/services/usuarios.service';
 import { AccionCanceladaEvent, AccionConfirmadaEvent, AccionSolicitadaEvent } from '../accion-confirmable/accion.confirmable.events';
-import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBorradoSolicitadoEvent, UsuarioModificacionCanceladaEvent, UsuarioModificacionConfirmadaEvent, UsuarioModificacionSolicitadaEvent } from './usuario.events';
+import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBorradoSolicitadoEvent, UsuarioDeseleccionadoEvent, UsuarioModificacionCanceladaEvent, UsuarioModificacionConfirmadaEvent, UsuarioModificacionSolicitadaEvent, UsuarioSeleccionadoEvent } from './usuario.events';
 
 enum EstadoDelComponente {
     NORMAL,
     EN_MODIFICACION,
-    EN_BORRADO
+    EN_BORRADO,
+    SELECCIONADO
 }
 
 @Component({
@@ -37,6 +38,12 @@ export class UsuarioComponent implements OnInit {
     @Input() 
     borrable: boolean = false;
 
+    @Input() 
+    seleccionable: boolean = false;
+
+    @Input() 
+    seleccionado: boolean = false;
+
     @Output()
     onModificacionSolicitada = new EventEmitter<UsuarioModificacionSolicitadaEvent>();
 
@@ -54,6 +61,12 @@ export class UsuarioComponent implements OnInit {
 
     @Output()
     onBorradoCancelado = new EventEmitter<UsuarioBorradoCanceladoEvent>();
+
+    @Output()
+    onSeleccionado = new EventEmitter<UsuarioSeleccionadoEvent>();
+
+    @Output()
+    onDeseleccionado = new EventEmitter<UsuarioDeseleccionadoEvent>();
 
     constructor(private servicioUsuarios: ServicioUsuarios) { // Solicito la Inyección de dependencias
         // El private os evita tener que declarar la propiedad arribita(1) y hacer aqui abajo la asignación (2)
@@ -84,6 +97,9 @@ export class UsuarioComponent implements OnInit {
                     }
                 })
             }
+        if(this.seleccionado){
+            this.#estado = EstadoDelComponente.SELECCIONADO;
+        }
     }
 
     get estado():EstadoDelComponente{
@@ -102,6 +118,15 @@ export class UsuarioComponent implements OnInit {
                         this.#estado =EstadoDelComponente.EN_MODIFICACION
                         return this.onModificacionSolicitada.emit(new UsuarioModificacionSolicitadaEvent(this.datosUsuario!));
                     }
+                }else if (this.seleccionable && event instanceof PointerEvent){
+                    this.#estado =EstadoDelComponente.SELECCIONADO
+                    return this.onSeleccionado.emit(new UsuarioSeleccionadoEvent(this.datosUsuario!));
+                }
+                break
+            case EstadoDelComponente.SELECCIONADO:
+                if (event instanceof PointerEvent){
+                    this.#estado =EstadoDelComponente.NORMAL
+                    return this.onDeseleccionado.emit(new UsuarioDeseleccionadoEvent(this.datosUsuario!));
                 }
                 break
             case EstadoDelComponente.EN_MODIFICACION:
@@ -127,7 +152,13 @@ export class UsuarioComponent implements OnInit {
                 }
                 break
         }
-        console.error("Evento no soportado en este estado", this.#estado, event)
+        if (! (event instanceof PointerEvent) ){
+            console.error("Evento no soportado en este estado", this.#estado, event)
+        }
+
+
+        
+
     }
 
 }

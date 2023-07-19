@@ -118,3 +118,4 @@ Cambios al componente Usuario
 -    Estado de la seleccion: Seleccionado | No seleccionado.... esto encaja ahora mismo con los estados definidos:
 -        NORMAL, SELECCIONADO, MODIFICACION, EN BORRADO
 -    2 Eventos: onSeleccionado onDeseleccionado
+

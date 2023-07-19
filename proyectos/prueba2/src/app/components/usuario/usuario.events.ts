@@ -42,3 +42,16 @@ export class UsuarioBorradoCanceladoEvent extends UsuarioEvent{
         super(usuario);
     }
 }
+
+
+export class UsuarioSeleccionadoEvent extends UsuarioEvent{
+    constructor(usuario: Usuario){
+        super(usuario);
+    }
+}
+
+export class UsuarioDeseleccionadoEvent extends UsuarioEvent{
+    constructor(usuario: Usuario){
+        super(usuario);
+    }
+}

@@ -1,6 +1,7 @@
-<div class="usuario" *ngIf="this.datosUsuario"> <!--; else esperando">-->
+<div [ngClass]="['usuario', this.estado != this.Estados.SELECCIONADO ? 'no-seleccionado' : 'seleccionado' ]" *ngIf="this.datosUsuario"
+(click)="this.cambiarEstado($event)"> <!--; else esperando">-->
     
-    <accion-confirmable *ngIf="this.editable && this.estado != Estados.EN_BORRADO"
+    <accion-confirmable *ngIf="this.editable && this.estado != Estados.EN_BORRADO && this.estado != Estados.SELECCIONADO"
         actionId="edicion"
         (onAccionSolicitada) = "this.cambiarEstado($event)"
         (onAccionCancelada) = "this.cambiarEstado($event)"
@@ -9,7 +10,7 @@
         mensajeConfirmacion = "Guardar"
         mensajeCancelacion = "Cancelar" />
 
-    <accion-confirmable *ngIf="this.borrable && this.estado != Estados.EN_MODIFICACION"
+    <accion-confirmable *ngIf="this.borrable && this.estado != Estados.EN_MODIFICACION && this.estado != Estados.SELECCIONADO"
         actionId="borrado"
         (onAccionSolicitada) = "this.cambiarEstado($event)"
         (onAccionCancelada) = "this.cambiarEstado($event)"
@@ -43,5 +44,4 @@
 </ng-template-->
 
 <div *ngIf="!this.errorMessage && !this.datosUsuario" >Esperando los datos del usuario</div>
-
 
