@@ -20,7 +20,6 @@ enum EstadoDelComponente {
 export class UsuarioComponent implements OnInit {
 
     errorMessage: string | undefined = undefined;
-    datosUsuario!: Usuario;
     #estado:EstadoDelComponente = EstadoDelComponente.NORMAL;
     readonly Estados = EstadoDelComponente
 
@@ -28,6 +27,9 @@ export class UsuarioComponent implements OnInit {
 
     @Input() // Este dato, sácalo de un atributo de la marca HTML <usuario id="121212"/>
     id!: number;
+
+    @Input()
+    datosUsuario?: Usuario;
 
     @Input() 
     editable: boolean = false;
@@ -66,20 +68,22 @@ export class UsuarioComponent implements OnInit {
 
     // Angular va a llamar a esta función cuando el componente WEB sea pinchado en el DOM
     ngOnInit(): void {
-        // Este si es un buen sitio donde hacer ese tipo de cosas, como el pedir los datos del usuario
-        const miUsuario: Observable<Usuario> = this.servicioUsuarios.getUsuario(this.id);
-        //miUsuario.subscribe( (nuevoUsuario:Usuario) => this.datosUsuario = nuevoUsuario);
-        miUsuario.subscribe(
-            {
-                next: (usuario: Usuario) => this.datosUsuario = usuario,
-                error: (error: string) => this.errorMessage = error,
-                complete: () => {
-                    console.log("Se ha completado la petición de datos del usuario");
-                    if (!this.datosUsuario) {
-                        this.errorMessage = "No se pudo conseguir los datos del usuario";
+        if(!this.datosUsuario){
+            // Este si es un buen sitio donde hacer ese tipo de cosas, como el pedir los datos del usuario
+            const miUsuario: Observable<Usuario> = this.servicioUsuarios.getUsuario(this.id);
+            //miUsuario.subscribe( (nuevoUsuario:Usuario) => this.datosUsuario = nuevoUsuario);
+            miUsuario.subscribe(
+                {
+                    next: (usuario: Usuario) => this.datosUsuario = usuario,
+                    error: (error: string) => this.errorMessage = error,
+                    complete: () => {
+                        console.log("Se ha completado la petición de datos del usuario");
+                        if (!this.datosUsuario) {
+                            this.errorMessage = "No se pudo conseguir los datos del usuario";
+                        }
                     }
-                }
-            })
+                })
+            }
     }
 
     get estado():EstadoDelComponente{
@@ -93,10 +97,10 @@ export class UsuarioComponent implements OnInit {
                 if (event instanceof AccionSolicitadaEvent){
                     if( event.actionId === "borrado" ){
                         this.#estado =EstadoDelComponente.EN_BORRADO
-                        return this.onBorradoSolicitado.emit(new UsuarioBorradoSolicitadoEvent(this.datosUsuario));
+                        return this.onBorradoSolicitado.emit(new UsuarioBorradoSolicitadoEvent(this.datosUsuario!));
                     }else if( event.actionId === "edicion" ){
                         this.#estado =EstadoDelComponente.EN_MODIFICACION
-                        return this.onModificacionSolicitada.emit(new UsuarioModificacionSolicitadaEvent(this.datosUsuario));
+                        return this.onModificacionSolicitada.emit(new UsuarioModificacionSolicitadaEvent(this.datosUsuario!));
                     }
                 }
                 break
@@ -104,10 +108,10 @@ export class UsuarioComponent implements OnInit {
                 if( event.actionId === "edicion" ){
                     if (event instanceof AccionCanceladaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
-                        return this.onModificacionCancelada.emit(new UsuarioModificacionCanceladaEvent(this.datosUsuario));
+                        return this.onModificacionCancelada.emit(new UsuarioModificacionCanceladaEvent(this.datosUsuario!));
                     }else if (event instanceof AccionConfirmadaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
-                        return this.onModificacionConfirmada.emit(new UsuarioModificacionConfirmadaEvent(this.datosUsuario));
+                        return this.onModificacionConfirmada.emit(new UsuarioModificacionConfirmadaEvent(this.datosUsuario!));
                     }
                 }
                 break
@@ -115,10 +119,10 @@ export class UsuarioComponent implements OnInit {
                 if( event.actionId === "borrado" ){
                     if (event instanceof AccionCanceladaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
-                        return this.onBorradoCancelado.emit(new UsuarioBorradoCanceladoEvent(this.datosUsuario));
+                        return this.onBorradoCancelado.emit(new UsuarioBorradoCanceladoEvent(this.datosUsuario!));
                     }else if (event instanceof AccionConfirmadaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
-                        return this.onBorradoConfirmado.emit(new UsuarioBorradoConfirmadoEvent(this.datosUsuario));
+                        return this.onBorradoConfirmado.emit(new UsuarioBorradoConfirmadoEvent(this.datosUsuario!));
                     }
                 }
                 break
