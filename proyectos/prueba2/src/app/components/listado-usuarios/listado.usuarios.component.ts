@@ -49,7 +49,7 @@ export class ListadoUsuariosComponent implements OnInit {
     }
 
     get datosUsuarios(){
-        return [... this.#datosUsuarios]
+        return this.#datosUsuarios ? [... this.#datosUsuarios] : []
     }
 
     get estado():EstadoDelComponente{
@@ -137,5 +137,13 @@ export class ListadoUsuariosComponent implements OnInit {
                 || (this.estado == EstadoDelComponente.CON_USUARIO_EN_BORRADO  // Pero si hay alguien en borrado,
                     && this.#usuarioEnBorrado === id)                          // solo dejo que se le borre a él
             )
+    }
+    borrarUsuariosSeleccionados(){
+        this.#idsUsuariosSeleccionados = [];
+        this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+        console.log("Borrando usuarios", this.#idsUsuariosSeleccionados)
+        // TODO :
+        // Sacarlos del listado de Usuarios
+        // Llamar a alguien que realmente borre los usuarios de donde tenga que ser borrado
     }
 }

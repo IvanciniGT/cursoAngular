@@ -11,10 +11,18 @@
                 [BORRAR SELECCIONADOS] [SELECCIONAR TODOS] [DESELECCIONAR TODOS]
 
      -->
+     <div class="botones">
+        <accion-confirmable *ngIf="this.estado === this.Estados.CON_SELECCIONADOS"
+        actionId="borrar-seleccionados"
+        (onAccionConfirmada) = "this.borrarUsuariosSeleccionados()"
+        mensajeAccion = "Borrar seleccionados"
+        mensajeConfirmacion = "Confirmar"
+        mensajeCancelacion = "Cancelar"/>
+     </div>
 
+     <hr/>
      <!-- El listado de usuarios -->
      <div *ngFor="let usuario of this.datosUsuarios">
-
         <usuario
             [id]="usuario.id"
             [datosUsuario]="usuario"

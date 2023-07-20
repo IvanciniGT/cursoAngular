@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from 'src/app/models/user.model';
 //import { ServicioUsuariosImpl } from 'src/app/services/impl/usuarios.service.impl';
@@ -18,7 +18,7 @@ enum EstadoDelComponente {
     templateUrl: './usuario.component.html',  // La representación gráfica del componente
     styleUrls: ['./usuario.component.css']    // Estilos propios para este componente
 })
-export class UsuarioComponent implements OnInit {
+export class UsuarioComponent implements OnInit, OnChanges {
 
     errorMessage: string | undefined = undefined;
     #estado:EstadoDelComponente = EstadoDelComponente.NORMAL;
@@ -100,6 +100,11 @@ export class UsuarioComponent implements OnInit {
         if(this.seleccionado){
             this.#estado = EstadoDelComponente.SELECCIONADO;
         }
+    }
+    // Esta función se dispara cuando un Input cambia en el tiempo
+    // posterior a su carga inicial
+    ngOnChanges(){
+        this.#estado = this.seleccionado ? EstadoDelComponente.SELECCIONADO: EstadoDelComponente.NORMAL;
     }
 
     get estado():EstadoDelComponente{
