@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from 'src/app/models/user.model';
 import { ServicioUsuarios } from 'src/app/services/usuarios.service';
-import { AccionCanceladaEvent, AccionConfirmadaEvent, AccionSolicitadaEvent } from '../accion-confirmable/accion.confirmable.events';
 import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBorradoSolicitadoEvent, UsuarioDeseleccionadoEvent, UsuarioModificacionCanceladaEvent, UsuarioModificacionConfirmadaEvent, UsuarioModificacionSolicitadaEvent, UsuarioSeleccionadoEvent } from '../usuario/usuario.events';
 
 enum EstadoDelComponente {
@@ -23,8 +22,8 @@ export class ListadoUsuariosComponent implements OnInit {
     #estado:EstadoDelComponente = EstadoDelComponente.SIN_SELECCIONADOS;
     readonly Estados = EstadoDelComponente
 
-    datosUsuarios!: Array<Usuario>;
-    idsUsuariosSeleccionados: Array<number> = [ ];
+    #datosUsuarios!: Array<Usuario>;
+    #idsUsuariosSeleccionados: Array<number> = [ ];
     #usuarioEnBorrado?: number;
     #usuarioEnModificacion?: number;
 
@@ -42,13 +41,15 @@ export class ListadoUsuariosComponent implements OnInit {
 
     ngOnInit(): void {
         const misUsuarios: Observable<Array<Usuario>> = this.servicioUsuarios.getUsuarios();
-        //miUsuario.subscribe( (nuevoUsuario:Usuario) => this.datosUsuario = nuevoUsuario);
         misUsuarios.subscribe(
             {
-                next: (usuarios: Array<Usuario>) => this.datosUsuarios = usuarios,
+                next: (usuarios: Array<Usuario>) => this.#datosUsuarios = usuarios,
                 error: (error: string) => this.errorMessage = error,
             })
-        
+    }
+
+    get datosUsuarios(){
+        return [... this.#datosUsuarios]
     }
 
     get estado():EstadoDelComponente{
@@ -57,13 +58,13 @@ export class ListadoUsuariosComponent implements OnInit {
 
     nuevoUsuarioSeleccionado(evento:UsuarioSeleccionadoEvent){
         if(! this.#asegurarEstado([EstadoDelComponente.SIN_SELECCIONADOS, EstadoDelComponente.CON_SELECCIONADOS], evento)) return
-        this.idsUsuariosSeleccionados.push(evento.usuario.id);
+        this.#idsUsuariosSeleccionados.push(evento.usuario.id);
         this.#estado = EstadoDelComponente.CON_SELECCIONADOS;
     }
     nuevoUsuarioDeseleccionado(evento:UsuarioDeseleccionadoEvent){
         if(! this.#asegurarEstado([EstadoDelComponente.CON_SELECCIONADOS], evento)) return
-        this.idsUsuariosSeleccionados = this.idsUsuariosSeleccionados.filter( (id) => id !== evento.usuario.id );
-        if(this.idsUsuariosSeleccionados.length === 0)
+        this.#idsUsuariosSeleccionados = this.#idsUsuariosSeleccionados.filter( (id) => id !== evento.usuario.id );
+        if(this.#idsUsuariosSeleccionados.length === 0)
             this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
     }
     usuarioBorradoSolicitado(evento:UsuarioBorradoSolicitadoEvent){
@@ -114,7 +115,7 @@ export class ListadoUsuariosComponent implements OnInit {
     }
 
     estaElUsuarioSeleccionado(id:number):boolean {
-        return this.idsUsuariosSeleccionados.includes(id)
+        return this.#idsUsuariosSeleccionados.includes(id)
     }
 
     sonSeleccionablesLosUsuarios():boolean {
