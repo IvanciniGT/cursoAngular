@@ -15,23 +15,23 @@
             [id]="usuario.id"
             [datosUsuario]="usuario"
 
-            [editable]=""
-            [borrable]=""
-            [seleccionable]=""
+            [editable]="this.esEditableElUsuario(usuario.id)"
+            [borrable]="this.esBorrableElUsuario(usuario.id)"
+            [seleccionable]="this.sonSeleccionablesLosUsuarios()"
 
-            [seleccionado]=
+            [seleccionado]="this.estaElUsuarioSeleccionado(usuario.id)"
 
-            [onModificacionSolicitada]=
-            [onModificacionConfirmada]=
-            [onModificacionCancelada]=
-            [onBorradoSolicitado]="this.usuarioBorradoSolicitado($event)"
-            [onBorradoConfirmado]="this.usuarioBorradoConfirmado($event)"
-            [onBorradoCancelado]="this.usuarioBorradoCancelado($event)"
-            [onSeleccionado]="this.nuevoUsuarioSeleccionado($event)"
-            [onDeseleccionado]="this.nuevoUsuarioDeseleccionado($event)"
+            (onModificacionSolicitada)="this.usuarioModificacionSolicitada($event)"
+            (onModificacionConfirmada)="this.usuarioModificacionConfirmada($event)"
+            (onModificacionCancelada)="this.usuarioModificacionCancelada($event)"
+            (onBorradoSolicitado)="this.usuarioBorradoSolicitado($event)"
+            (onBorradoConfirmado)="this.usuarioBorradoConfirmado($event)"
+            (onBorradoCancelado)="this.usuarioBorradoCancelado($event)"
+            (onSeleccionado)="this.nuevoUsuarioSeleccionado($event)"
+            (onDeseleccionado)="this.nuevoUsuarioDeseleccionado($event)"
 
         ></usuario>
-
+        <hr/>
      </div>
 
 </div>

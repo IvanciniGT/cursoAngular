@@ -85,7 +85,26 @@ export class ListadoUsuariosComponent implements OnInit {
         // Sacarlo del listado de Usuarios
         // Llamar a alguien que realmente borre el usuario de donde tenga que ser borrado
     }
-    
+    usuarioModificacionSolicitada(evento:UsuarioModificacionSolicitadaEvent){
+        if(! this.#asegurarEstado([EstadoDelComponente.SIN_SELECCIONADOS], evento)) return
+        this.#estado = EstadoDelComponente.CON_USUARIO_EN_MODIFICACION;
+        this.#usuarioEnModificacion = evento.usuario.id;
+    }
+    usuarioModificacionCancelada(evento:UsuarioModificacionCanceladaEvent){
+        if(! this.#asegurarEstado([EstadoDelComponente.CON_USUARIO_EN_MODIFICACION], evento)) return
+        this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+        this.#usuarioEnModificacion = undefined
+    }
+    usuarioModificacionConfirmada(evento:UsuarioModificacionConfirmadaEvent){
+        if(! this.#asegurarEstado([EstadoDelComponente.CON_USUARIO_EN_MODIFICACION], evento)) return
+        this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+        this.#usuarioEnModificacion = undefined
+        console.log("Modificando usuario", evento.usuario)
+        // TODO :
+        // Modificarlo en el listado de Usuarios
+        // Llamar a alguien que realmente modifique el usuario de donde tenga que ser modificado
+    }
+
     #asegurarEstado(estadosCompatible:Array<EstadoDelComponente>, evento:any):boolean{
         if(!estadosCompatible.includes(this.estado)){
             console.error("Evento no soportado en este estado", this.#estado, evento)
@@ -94,60 +113,28 @@ export class ListadoUsuariosComponent implements OnInit {
         return true
     }
 
-/*
-    // MAQUINA DE ESTADOS FINITOS
-    cambiarEstado(event:any) : void{
-        switch(this.estado){
-            case EstadoDelComponente.NORMAL:
-                if (event instanceof AccionSolicitadaEvent){
-                    if( event.actionId === "borrado" ){
-                        this.#estado =EstadoDelComponente.EN_BORRADO
-                        return this.onBorradoSolicitado.emit(new UsuarioBorradoSolicitadoEvent(this.datosUsuario!));
-                    }else if( event.actionId === "edicion" ){
-                        this.#estado =EstadoDelComponente.EN_MODIFICACION
-                        return this.onModificacionSolicitada.emit(new UsuarioModificacionSolicitadaEvent(this.datosUsuario!));
-                    }
-                }else if (this.seleccionable && event instanceof PointerEvent){
-                    this.#estado =EstadoDelComponente.SELECCIONADO
-                    return this.onSeleccionado.emit(new UsuarioSeleccionadoEvent(this.datosUsuario!));
-                }
-                break
-            case EstadoDelComponente.SELECCIONADO:
-                if (event instanceof PointerEvent){
-                    this.#estado =EstadoDelComponente.NORMAL
-                    return this.onDeseleccionado.emit(new UsuarioDeseleccionadoEvent(this.datosUsuario!));
-                }
-                break
-            case EstadoDelComponente.EN_MODIFICACION:
-                if( event.actionId === "edicion" ){
-                    if (event instanceof AccionCanceladaEvent){
-                        this.#estado =EstadoDelComponente.NORMAL
-                        return this.onModificacionCancelada.emit(new UsuarioModificacionCanceladaEvent(this.datosUsuario!));
-                    }else if (event instanceof AccionConfirmadaEvent){
-                        this.#estado =EstadoDelComponente.NORMAL
-                        return this.onModificacionConfirmada.emit(new UsuarioModificacionConfirmadaEvent(this.datosUsuario!));
-                    }
-                }
-                break
-            case EstadoDelComponente.EN_BORRADO:
-                if( event.actionId === "borrado" ){
-                    if (event instanceof AccionCanceladaEvent){
-                        this.#estado =EstadoDelComponente.NORMAL
-                        return this.onBorradoCancelado.emit(new UsuarioBorradoCanceladoEvent(this.datosUsuario!));
-                    }else if (event instanceof AccionConfirmadaEvent){
-                        this.#estado =EstadoDelComponente.NORMAL
-                        return this.onBorradoConfirmado.emit(new UsuarioBorradoConfirmadoEvent(this.datosUsuario!));
-                    }
-                }
-                break
-        }
-        if (! (event instanceof PointerEvent) ){
-            console.error("Evento no soportado en este estado", this.#estado, event)
-        }
-
-
-        
-
+    estaElUsuarioSeleccionado(id:number):boolean {
+        return this.idsUsuariosSeleccionados.includes(id)
     }
-*/
+
+    sonSeleccionablesLosUsuarios():boolean {
+        return this.seleccionables && 
+            (this.estado == EstadoDelComponente.SIN_SELECCIONADOS || this.estado == EstadoDelComponente.CON_SELECCIONADOS)
+    }
+
+    esEditableElUsuario(id:number):boolean {
+        return this.editables &&    // Esto es condición indispensable para que se muestreo no el botón de MODIFICAR
+            (this.estado == EstadoDelComponente.SIN_SELECCIONADOS // Si nadie esta seleccionado, a todos les dejo modificar
+                || (this.estado == EstadoDelComponente.CON_USUARIO_EN_MODIFICACION  // Pero si hay alguien en modificación, 
+                    && this.#usuarioEnModificacion === id)                          // solo dejo que se le modifique a él
+            )
+    }
+
+    esBorrableElUsuario(id:number):boolean {
+        return this.borrables &&    // Esto es condición indispensable para que se muestreo no el botón de BORRAR
+            (this.estado == EstadoDelComponente.SIN_SELECCIONADOS // Si nadie esta seleccionado, a todos les dejo borrar    
+                || (this.estado == EstadoDelComponente.CON_USUARIO_EN_BORRADO  // Pero si hay alguien en borrado,
+                    && this.#usuarioEnBorrado === id)                          // solo dejo que se le borre a él
+            )
+    }
 }
