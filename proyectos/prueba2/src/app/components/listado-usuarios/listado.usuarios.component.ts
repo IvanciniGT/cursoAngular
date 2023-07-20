@@ -7,7 +7,9 @@ import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBor
 
 enum EstadoDelComponente {
     SIN_SELECCIONADOS,
-    CON_SELECCIONADOS
+    CON_SELECCIONADOS,
+    CON_USUARIO_EN_MODIFICACION,
+    CON_USUARIO_EN_BORRADO
 }
 
 @Component({
