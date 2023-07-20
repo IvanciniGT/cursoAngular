@@ -18,6 +18,15 @@
         mensajeAccion = "Borrar seleccionados"
         mensajeConfirmacion = "Confirmar"
         mensajeCancelacion = "Cancelar"/>
+
+        <button *ngIf="!this.estanTodosLosUsuariosSeleccionados()"
+                (click)="this.seleccionarTodosLosUsuarios()"
+            >Seleccionar todos</button>
+        <button 
+                *ngIf="this.algunUsuarioSeleccionado()" 
+                (click)="this.deseleccionarTodosLosUsuarios()"
+            >Deseleccionar todos</button>
+
      </div>
 
      <hr/>

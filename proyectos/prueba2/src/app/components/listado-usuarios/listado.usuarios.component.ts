@@ -146,4 +146,20 @@ export class ListadoUsuariosComponent implements OnInit {
         // Sacarlos del listado de Usuarios
         // Llamar a alguien que realmente borre los usuarios de donde tenga que ser borrado
     }
+
+    estanTodosLosUsuariosSeleccionados():boolean {
+        return this.#idsUsuariosSeleccionados.length === this.#datosUsuarios.length
+    }
+    algunUsuarioSeleccionado():boolean {
+        return this.#idsUsuariosSeleccionados.length > 0
+    }
+    seleccionarTodosLosUsuarios(){
+        this.#idsUsuariosSeleccionados = this.#datosUsuarios.map( (usuario) => usuario.id );
+        this.#estado = EstadoDelComponente.CON_SELECCIONADOS;
+    }
+    deseleccionarTodosLosUsuarios(){
+        this.#idsUsuariosSeleccionados = [];
+        this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+    }
+
 }
