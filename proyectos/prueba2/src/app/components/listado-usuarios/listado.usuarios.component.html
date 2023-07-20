@@ -11,8 +11,18 @@
                 [BORRAR SELECCIONADOS] [SELECCIONAR TODOS] [DESELECCIONAR TODOS]
 
      -->
-     <div class="botones">
-        <accion-confirmable *ngIf="this.estado === this.Estados.CON_SELECCIONADOS"
+    <div class="filtro">
+        <!--Con el # ponemos un ID a un elemento del DOM, al que me puedo referir posteriormente
+        PERO SOLO DESDE ESTE FICHERO !!!!!-->
+        <input type="text"
+            #filtro
+            (keyup)="this.filtrarUsuariosPor(filtro.value)"
+            (change)="this.filtrarUsuariosPor(filtro.value)"
+        >
+        <!--button (click)="this.filtrarUsuariosPor(filtro.value)">Filtrar</button-->
+    </div>
+    <div class="botones">
+            <accion-confirmable *ngIf="this.estado === this.Estados.CON_SELECCIONADOS"
         actionId="borrar-seleccionados"
         (onAccionConfirmada) = "this.borrarUsuariosSeleccionados()"
         mensajeAccion = "Borrar seleccionados"

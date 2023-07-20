@@ -22,6 +22,7 @@ export class ListadoUsuariosComponent implements OnInit {
     #estado:EstadoDelComponente = EstadoDelComponente.SIN_SELECCIONADOS;
     readonly Estados = EstadoDelComponente
 
+    #datosUsuariosOriginales!: Array<Usuario>;
     #datosUsuarios!: Array<Usuario>;
     #idsUsuariosSeleccionados: Array<number> = [ ];
     #usuarioEnBorrado?: number;
@@ -43,7 +44,7 @@ export class ListadoUsuariosComponent implements OnInit {
         const misUsuarios: Observable<Array<Usuario>> = this.servicioUsuarios.getUsuarios();
         misUsuarios.subscribe(
             {
-                next: (usuarios: Array<Usuario>) => this.#datosUsuarios = usuarios,
+                next: (usuarios: Array<Usuario>) => this.#datosUsuariosOriginales = this.#datosUsuarios = usuarios,
                 error: (error: string) => this.errorMessage = error,
             })
     }
@@ -148,7 +149,8 @@ export class ListadoUsuariosComponent implements OnInit {
     }
 
     estanTodosLosUsuariosSeleccionados():boolean {
-        return this.#idsUsuariosSeleccionados.length === this.#datosUsuarios.length
+                // Quitar los ids que no estén en #datosUsuario
+        return this.#idsUsuariosSeleccionados.length === this.#datosUsuarios?.length
     }
     algunUsuarioSeleccionado():boolean {
         return this.#idsUsuariosSeleccionados.length > 0
@@ -160,6 +162,27 @@ export class ListadoUsuariosComponent implements OnInit {
     deseleccionarTodosLosUsuarios(){
         this.#idsUsuariosSeleccionados = [];
         this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+    }
+    
+    temporizadorFiltro:any;
+    ultimoFiltroAplicado:string = ""
+    filtrarUsuariosPor(texto:string){
+        clearTimeout(this.temporizadorFiltro);
+        this.temporizadorFiltro = setTimeout(()=>this.ejecutarFiltro(texto),200);
+    }
+    ejecutarFiltro(texto:string){
+        if(texto === this.ultimoFiltroAplicado) return
+        texto = texto.trim().toLowerCase();
+        if(texto.length === 0){
+            this.#datosUsuarios = this.#datosUsuariosOriginales
+        }else{
+            this.#datosUsuarios = this.#datosUsuariosOriginales.filter((usuario) => 
+                usuario.nombre.toLowerCase().includes(texto) ||
+                usuario.apellidos.toLowerCase().includes(texto) ||
+                usuario.email.toLowerCase().includes(texto)
+            )
+        }
+        this.ultimoFiltroAplicado = texto
     }
 
 }
