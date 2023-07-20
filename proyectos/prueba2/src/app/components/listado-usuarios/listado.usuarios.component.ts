@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from 'src/app/models/user.model';
-//import { ServicioUsuariosImpl } from 'src/app/services/impl/usuarios.service.impl';
 import { ServicioUsuarios } from 'src/app/services/usuarios.service';
 import { AccionCanceladaEvent, AccionConfirmadaEvent, AccionSolicitadaEvent } from '../accion-confirmable/accion.confirmable.events';
-import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBorradoSolicitadoEvent, UsuarioDeseleccionadoEvent, UsuarioModificacionCanceladaEvent, UsuarioModificacionConfirmadaEvent, UsuarioModificacionSolicitadaEvent, UsuarioSeleccionadoEvent } from './usuario.events';
+import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBorradoSolicitadoEvent, UsuarioDeseleccionadoEvent, UsuarioModificacionCanceladaEvent, UsuarioModificacionConfirmadaEvent, UsuarioModificacionSolicitadaEvent, UsuarioSeleccionadoEvent } from '../usuario/usuario.events';
 
 enum EstadoDelComponente {
     SIN_SELECCIONADOS,
@@ -51,7 +50,7 @@ export class ListadoUsuariosComponent implements OnInit {
     get estado():EstadoDelComponente{
         return this.#estado
     }
-
+/*
     // MAQUINA DE ESTADOS FINITOS
     cambiarEstado(event:any) : void{
         switch(this.estado){
@@ -106,5 +105,5 @@ export class ListadoUsuariosComponent implements OnInit {
         
 
     }
-
+*/
 }

@@ -155,10 +155,6 @@ export class UsuarioComponent implements OnInit {
         if (! (event instanceof PointerEvent) ){
             console.error("Evento no soportado en este estado", this.#estado, event)
         }
-
-
-        
-
     }
 
 }
