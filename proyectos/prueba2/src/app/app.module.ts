@@ -9,7 +9,7 @@ import { ServicioUsuarios } from './services/usuarios.service';
 import { AccionConfirmableComponent } from './components/accion-confirmable/accion.confirmable.component';
 import { ListadoUsuariosComponent } from './components/listado-usuarios/listado.usuarios.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UsuarioFormularioComponent } from './components/usuario-formulario/usuario-formulario.component';
+import { UsuarioFormularioComponent } from './components/usuario-formulario/usuario.formulario.component';
 
 @NgModule({
   // Aquí definiremos nuestros propios componentes web (nuestras marcas HTML personalizadas)
