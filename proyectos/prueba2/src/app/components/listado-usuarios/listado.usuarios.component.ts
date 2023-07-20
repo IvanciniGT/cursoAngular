@@ -25,6 +25,8 @@ export class ListadoUsuariosComponent implements OnInit {
 
     datosUsuarios!: Array<Usuario>;
     idsUsuariosSeleccionados: Array<number> = [ ];
+    #usuarioEnBorrado?: number;
+    #usuarioEnModificacion?: number;
 
     @Input() 
     editables: boolean = false;
@@ -52,6 +54,46 @@ export class ListadoUsuariosComponent implements OnInit {
     get estado():EstadoDelComponente{
         return this.#estado
     }
+
+    nuevoUsuarioSeleccionado(evento:UsuarioSeleccionadoEvent){
+        if(! this.#asegurarEstado([EstadoDelComponente.SIN_SELECCIONADOS, EstadoDelComponente.CON_SELECCIONADOS], evento)) return
+        this.idsUsuariosSeleccionados.push(evento.usuario.id);
+        this.#estado = EstadoDelComponente.CON_SELECCIONADOS;
+    }
+    nuevoUsuarioDeseleccionado(evento:UsuarioDeseleccionadoEvent){
+        if(! this.#asegurarEstado([EstadoDelComponente.CON_SELECCIONADOS], evento)) return
+        this.idsUsuariosSeleccionados = this.idsUsuariosSeleccionados.filter( (id) => id !== evento.usuario.id );
+        if(this.idsUsuariosSeleccionados.length === 0)
+            this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+    }
+    usuarioBorradoSolicitado(evento:UsuarioBorradoSolicitadoEvent){
+        if(! this.#asegurarEstado([EstadoDelComponente.SIN_SELECCIONADOS], evento)) return
+        this.#estado = EstadoDelComponente.CON_USUARIO_EN_BORRADO;
+        this.#usuarioEnBorrado = evento.usuario.id;
+    }
+    usuarioBorradoCancelado(evento:UsuarioBorradoCanceladoEvent){
+        if(! this.#asegurarEstado([EstadoDelComponente.CON_USUARIO_EN_BORRADO], evento)) return
+        this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+        this.#usuarioEnBorrado = undefined
+    }
+    usuarioBorradoConfirmado(evento:UsuarioBorradoConfirmadoEvent){
+        if(! this.#asegurarEstado([EstadoDelComponente.CON_USUARIO_EN_BORRADO], evento)) return
+        this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+        this.#usuarioEnBorrado = undefined
+        console.log("Borrando usuario", evento.usuario)
+        // TODO :
+        // Sacarlo del listado de Usuarios
+        // Llamar a alguien que realmente borre el usuario de donde tenga que ser borrado
+    }
+    
+    #asegurarEstado(estadosCompatible:Array<EstadoDelComponente>, evento:any):boolean{
+        if(!estadosCompatible.includes(this.estado)){
+            console.error("Evento no soportado en este estado", this.#estado, evento)
+            return false
+        }
+        return true
+    }
+
 /*
     // MAQUINA DE ESTADOS FINITOS
     cambiarEstado(event:any) : void{

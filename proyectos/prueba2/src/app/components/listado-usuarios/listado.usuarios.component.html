@@ -24,11 +24,11 @@
             [onModificacionSolicitada]=
             [onModificacionConfirmada]=
             [onModificacionCancelada]=
-            [onBorradoSolicitado]=
-            [onBorradoConfirmado]=
-            [onBorradoCancelado]=
-            [onSeleccionado]=
-            [onDeseleccionado]=
+            [onBorradoSolicitado]="this.usuarioBorradoSolicitado($event)"
+            [onBorradoConfirmado]="this.usuarioBorradoConfirmado($event)"
+            [onBorradoCancelado]="this.usuarioBorradoCancelado($event)"
+            [onSeleccionado]="this.nuevoUsuarioSeleccionado($event)"
+            [onDeseleccionado]="this.nuevoUsuarioDeseleccionado($event)"
 
         ></usuario>
 
