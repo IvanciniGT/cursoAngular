@@ -36,6 +36,7 @@ export class ServicioUsuariosMock implements ServicioUsuarios{
         return usuario;
     }
     getUsuarios():Observable<Array<Usuario>>{
+        console.log(this.listadoUsuarios)
         return new Observable( (suscriptor) => {
             setTimeout( ()=>suscriptor.next(this.listadoUsuarios), 400 )
             setTimeout( ()=>suscriptor.complete(), 800 )
