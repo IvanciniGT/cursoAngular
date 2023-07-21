@@ -2,24 +2,24 @@
 
         <form [formGroup]="formulario" (ngSubmit)="actualizacionFormulario()">
             <div class="campo">
-                <label [ngClass]="[this.formulario.get('nombre')?.errors ? 'error' : 'valid']" for="nombre">Nombre</label>
+                <label [ngClass]="[!this.formulario.get('nombre')?.dirty? 'empezando' : this.formulario.get('nombre')?.errors ? 'error' : 'valid']" for="nombre">Nombre</label>
                 <input type="text" id="nombre" formControlName="nombre"/>
-                <div *ngIf="this.formulario.get('nombre')?.errors?.['required']">
+                <div *ngIf="this.formulario.get('nombre')?.dirty&& this.formulario.get('nombre')?.errors?.['required']">
                     El campo es requerido
                 </div>
-                <div *ngIf="this.formulario.get('nombre')?.errors?.['pattern']">
+                <div *ngIf="this.formulario.get('nombre')?.dirty&& this.formulario.get('nombre')?.errors?.['pattern']">
                     El nombre no es válido... (ojito a las mayúculas!!!!!)
                 </div>
             </div>
             <div class="campo">
-                <label [ngClass]="[this.formulario.get('apellidos')?.errors ? 'error' : 'valid']" for="apellidos">Apellidos</label>
+                <label [ngClass]="[!this.formulario.get('apellidos')?.dirty? 'empezando' : this.formulario.get('apellidos')?.errors ? 'error' : 'valid']" for="apellidos">Apellidos</label>
                 <input type="text" id="apellidos" formControlName="apellidos"/>
-                <div *ngIf="this.formulario.get('apellidos')?.errors?.['required']">
+                <div *ngIf="this.formulario.get('apellidos')?.dirty&& this.formulario.get('apellidos')?.errors?.['required']">
                     El campo es requerido
                 </div>
             </div>
             <div class="campo">
-                <label [ngClass]="[this.formulario.get('edad')?.dirty&& this.formulario.get('edad')?.errors ? 'error' : 'valid']" for="edad">Edad</label>
+                <label [ngClass]="[!this.formulario.get('edad')?.dirty? 'empezando' : this.formulario.get('edad')?.errors ? 'error' : 'valid']" for="edad">Edad</label>
                 <input type="number" id="edad" formControlName="edad"/>
                 <div *ngIf="this.formulario.get('edad')?.errors?.['min']">
                     La edad debe ser al menos 0... tendrá que haber nacido.. digo !
@@ -29,52 +29,12 @@
                 </div>
             </div>
             <div class="campo">
-                <label [ngClass]="[this.formulario.get('email')?.dirty&& this.formulario.get('email')?.errors ? 'error' : 'valid']" for="email">Email</label>
+                <label [ngClass]="[!this.formulario.get('email')?.dirty? 'empezando' : this.formulario.get('email')?.errors ? 'error' : 'valid']" for="email">Email</label>
                 <input type="text" id="email" formControlName="email"/>
-                <div *ngIf="this.formulario.get('email')?.errors?.['required']">
+                <div *ngIf="this.formulario.get('email')?.dirty&& this.formulario.get('email')?.errors?.['required']">
                     El campo es requerido
                 </div>
             </div>
-            <div class="campo">
-                <label>¿Qué conduce habitualmente?</label>
-                <input type="radio" formControlName="conduce" value="no"/> No conduzco
-                <input type="radio" formControlName="conduce" value="coche"/>Coche
-                <input type="radio" formControlName="conduce" value="moto"/> Moto
-            </div>
-            <div class="campo">
-                <label>Tienes vehículo</label>
-                <input type="checkbox" formControlName="tienesVehiculo" value="vehhiculo"/> 
-            </div>
-            <div class="campo">
-                <label>Género</label>
-                <select formControlName="genero"> 
-                    <option>No lo digo</option>
-                    <option>Hombre</option>
-                    <option>Mujer</option>
-                    <option>No binario</option>
-                    <option>Otros</option>
-                </select>
-            </div>
-
-
-            <div formArrayName="direcciones">
-                <h3>Direcciones</h3>
-                <div *ngFor="let direccion of this.direcciones.controls; let posicion = index;" [formGroupName]="posicion">
-                    <label>Via</label>
-                    <input type="text" formControlName="via">
-                    <label>Número</label>
-                    <input type="text" formControlName="numero">
-                    <label>CP</label>
-                    <input type="text" formControlName="cp">
-                    <label>Población</label>
-                    <input type="text" formControlName="poblacion">
-                </div>
-                <button (click)="this.nuevaDireccion()">Nueva dirección</button>
-            </div>
-
-
-
-
 
             <button 
                 type="submit"
