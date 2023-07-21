@@ -8,7 +8,8 @@ enum EstadoDelComponente {
     SIN_SELECCIONADOS,
     CON_SELECCIONADOS,
     CON_USUARIO_EN_MODIFICACION,
-    CON_USUARIO_EN_BORRADO
+    CON_USUARIO_EN_BORRADO,
+    NUEVO_USUARIO
 }
 
 @Component({
@@ -27,6 +28,15 @@ export class ListadoUsuariosComponent implements OnInit {
     #idsUsuariosSeleccionados: Array<number> = [ ];
     #usuarioEnBorrado?: number;
     #usuarioEnModificacion?: number;
+
+    nuevoUsuarioSolicitado(){
+        if(! this.#asegurarEstado([EstadoDelComponente.SIN_SELECCIONADOS, EstadoDelComponente.CON_SELECCIONADOS], null)) return
+        this.#estado = EstadoDelComponente.NUEVO_USUARIO;
+        this.#idsUsuariosSeleccionados = [ ];
+    }
+
+    @Input() 
+    permitirCrear: boolean = false;
 
     @Input() 
     editables: boolean = false;

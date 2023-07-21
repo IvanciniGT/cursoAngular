@@ -11,7 +11,7 @@
                 [BORRAR SELECCIONADOS] [SELECCIONAR TODOS] [DESELECCIONAR TODOS]
 
      -->
-    <div class="filtro">
+    <div class="filtro"  *ngIf="this.estado !== this.Estados.NUEVO_USUARIO">
         <!--Con el # ponemos un ID a un elemento del DOM, al que me puedo referir posteriormente
         PERO SOLO DESDE ESTE FICHERO !!!!!-->
         <input type="text"
@@ -21,7 +21,7 @@
         >
         <!--button (click)="this.filtrarUsuariosPor(filtro.value)">Filtrar</button-->
     </div>
-    <div class="botones">
+    <div class="botones"  *ngIf="this.estado !== this.Estados.NUEVO_USUARIO">
             <accion-confirmable *ngIf="this.estado === this.Estados.CON_SELECCIONADOS"
         actionId="borrar-seleccionados"
         (onAccionConfirmada) = "this.borrarUsuariosSeleccionados()"
@@ -37,8 +37,16 @@
                 (click)="this.deseleccionarTodosLosUsuarios()"
             >Deseleccionar todos</button>
 
+        <button 
+            *ngIf="this.permitirCrear && (this.estado === this.Estados.SIN_SELECCIONADOS || this.estado === this.Estados.CON_SELECCIONADOS)" 
+            (click)="this.nuevoUsuarioSolicitado()"
+        >Nuevo usuario</button>
+
      </div>
 
+     <div *ngIf="this.estado === this.Estados.NUEVO_USUARIO">
+         <usuario-formulario></usuario-formulario>
+     </div>
      <hr/>
      <!-- El listado de usuarios -->
      <div *ngFor="let usuario of this.datosUsuarios">
