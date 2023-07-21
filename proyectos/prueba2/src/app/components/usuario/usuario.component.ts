@@ -5,6 +5,7 @@ import { Usuario } from 'src/app/models/user.model';
 import { ServicioUsuarios } from 'src/app/services/usuarios.service';
 import { AccionCanceladaEvent, AccionConfirmadaEvent, AccionSolicitadaEvent } from '../accion-confirmable/accion.confirmable.events';
 import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBorradoSolicitadoEvent, UsuarioDeseleccionadoEvent, UsuarioModificacionCanceladaEvent, UsuarioModificacionConfirmadaEvent, UsuarioModificacionSolicitadaEvent, UsuarioSeleccionadoEvent } from './usuario.events';
+import { UsuarioGuardadoEvent } from '../usuario-formulario/usuario.formulario.event';
 
 enum EstadoDelComponente {
     NORMAL,
@@ -113,8 +114,19 @@ export class UsuarioComponent implements OnInit, OnChanges {
         return this.#estado
     }
 
+    solicitarModificacion(){
+        this.cambiarEstado(new AccionSolicitadaEvent("formulario"))
+    }
+    guardarUsuario(evento:UsuarioGuardadoEvent){
+        console.log("GUARDAR USUARIO mediante servicio de backend:", evento.usuario)
+        this.datosUsuario = evento.usuario
+        // OJO ^^^^Esto en la realidad lo haríamos tras recibir confirmación del servicio de BackEnd
+        this.cambiarEstado(new AccionConfirmadaEvent("formulario"))
+    }
+
     // MAQUINA DE ESTADOS FINITOS
     cambiarEstado(event:any) : void{
+        //event.stopPropagation();
         console.log(this.estado)
         switch(this.estado){
             case EstadoDelComponente.NORMAL:
@@ -122,7 +134,7 @@ export class UsuarioComponent implements OnInit, OnChanges {
                     if( event.actionId === "borrado" ){
                         this.#estado =EstadoDelComponente.EN_BORRADO
                         return this.onBorradoSolicitado.emit(new UsuarioBorradoSolicitadoEvent(this.datosUsuario!));
-                    }else if( event.actionId === "edicion" ){
+                    }else if( event.actionId === "formulario" ){
                         this.#estado =EstadoDelComponente.EN_MODIFICACION
                         return this.onModificacionSolicitada.emit(new UsuarioModificacionSolicitadaEvent(this.datosUsuario!));
                     }
@@ -139,7 +151,7 @@ export class UsuarioComponent implements OnInit, OnChanges {
                 break
             case EstadoDelComponente.EN_MODIFICACION:
                 console.log(event)
-                if( event.actionId === "edicion" ){
+                if( event.actionId === "formulario" ){
                     if (event instanceof AccionCanceladaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
                         return this.onModificacionCancelada.emit(new UsuarioModificacionCanceladaEvent(this.datosUsuario!));

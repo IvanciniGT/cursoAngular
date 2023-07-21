@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/models/user.model';
+import { AccionCanceladaEvent } from '../accion-confirmable/accion.confirmable.events';
+import { UsuarioGuardadoEvent } from './usuario.formulario.event';
 
 @Component({
     selector: 'usuario-formulario',                 // Nombre de la etiqueta HTML que estamos generando
@@ -14,6 +16,12 @@ export class UsuarioFormularioComponent implements OnInit {
     @Input()
     datosUsuario?:Usuario
 
+    @Output()
+    onCancelado = new EventEmitter<AccionCanceladaEvent>();
+
+    @Output()
+    onGuardado = new EventEmitter<UsuarioGuardadoEvent>();
+
     constructor(private formBuilder: FormBuilder) { }
 
     ngOnInit(): void {
@@ -26,6 +34,14 @@ export class UsuarioFormularioComponent implements OnInit {
         })
     }
     actualizacionFormulario() {
-        console.log(this.formulario)
+        let usuario= new Usuario()
+        usuario.apellidos = this.formulario.value.apellidos
+        usuario.edad = this.formulario.value.edad
+        usuario.nombre = this.formulario.value.nombre
+        usuario.email = this.formulario.value.email
+        this.onGuardado.emit(new UsuarioGuardadoEvent(usuario));
+    }
+    formularioCancelado(){
+        this.onCancelado.emit(new AccionCanceladaEvent("formulario"));
     }
 }

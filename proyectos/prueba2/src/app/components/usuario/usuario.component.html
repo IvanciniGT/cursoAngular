@@ -3,14 +3,19 @@
     *ngIf="this.datosUsuario"
     (click)="this.cambiarEstado($event)"> <!--; else esperando">-->
     
-    <accion-confirmable *ngIf="this.editable && this.estado != Estados.EN_BORRADO && this.estado != Estados.SELECCIONADO"
+    <!--accion-confirmable *ngIf="this.editable && this.estado != Estados.EN_BORRADO && this.estado != Estados.SELECCIONADO"
         actionId="edicion"
         (onAccionSolicitada) = "this.cambiarEstado($event)"
         (onAccionCancelada) = "this.cambiarEstado($event)"
         (onAccionConfirmada) = "this.cambiarEstado($event)"
         mensajeAccion = "Modificar"
         mensajeConfirmacion = "Guardar"
-        mensajeCancelacion = "Cancelar" />
+        mensajeCancelacion = "Cancelar" /-->
+
+        <button 
+        (click)="this.solicitarModificacion()"
+        *ngIf="this.editable && this.estado != Estados.EN_BORRADO && this.estado != Estados.SELECCIONADO && this.estado != Estados.EN_MODIFICACION"
+        >Modificar</button>
 
     <accion-confirmable *ngIf="this.borrable && this.estado != Estados.EN_MODIFICACION && this.estado != Estados.SELECCIONADO"
         actionId="borrado"
@@ -31,7 +36,10 @@
         </div>
     </ng-container>
     <ng-template #formulario>
-        <usuario-formulario [datosUsuario]="this.datosUsuario"></usuario-formulario>
+        <usuario-formulario 
+        (onCancelado)="this.cambiarEstado($event)"
+        (onGuardado)="this.guardarUsuario($event)"
+        [datosUsuario]="this.datosUsuario"></usuario-formulario>
     </ng-template>
 
 </div>

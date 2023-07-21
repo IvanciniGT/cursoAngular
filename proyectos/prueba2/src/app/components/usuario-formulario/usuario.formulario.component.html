@@ -39,7 +39,11 @@
             <button 
                 type="submit"
                 [disabled]="!this.formulario.valid"
-            >ACEPTAR</button>
+            >Guardar</button>
+
+            <button 
+                (click)="this.formularioCancelado()"
+            >Cancelar</button>
         </form>
 
 </div>

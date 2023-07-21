@@ -5,3 +5,23 @@ En el componente listado-usuarios
 
 En el componente usuario
     que al apretar en el botón MODIFICAR salga el formulario.... relleno!
+
+
+
+listado-usuarios
+    formulairo-usuarios     
+        Aceptar, Cancelar
+            v
+            v
+            crear un usuario
+    usuario
+
+    usuario
+        AccionConfirmable
+            Aceptar, Cancelar
+               v        v
+        formulairo-usuarios
+            Aceptar, Cancelar
+                v
+                v
+                modificar un usuario

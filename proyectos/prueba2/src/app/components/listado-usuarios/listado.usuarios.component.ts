@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from 'src/app/models/user.model';
 import { ServicioUsuarios } from 'src/app/services/usuarios.service';
 import { UsuarioBorradoCanceladoEvent, UsuarioBorradoConfirmadoEvent, UsuarioBorradoSolicitadoEvent, UsuarioDeseleccionadoEvent, UsuarioModificacionCanceladaEvent, UsuarioModificacionConfirmadaEvent, UsuarioModificacionSolicitadaEvent, UsuarioSeleccionadoEvent } from '../usuario/usuario.events';
+import { UsuarioGuardadoEvent } from '../usuario-formulario/usuario.formulario.event';
 
 enum EstadoDelComponente {
     SIN_SELECCIONADOS,
@@ -28,12 +29,6 @@ export class ListadoUsuariosComponent implements OnInit {
     #idsUsuariosSeleccionados: Array<number> = [ ];
     #usuarioEnBorrado?: number;
     #usuarioEnModificacion?: number;
-
-    nuevoUsuarioSolicitado(){
-        if(! this.#asegurarEstado([EstadoDelComponente.SIN_SELECCIONADOS, EstadoDelComponente.CON_SELECCIONADOS], null)) return
-        this.#estado = EstadoDelComponente.NUEVO_USUARIO;
-        this.#idsUsuariosSeleccionados = [ ];
-    }
 
     @Input() 
     permitirCrear: boolean = false;
@@ -193,6 +188,23 @@ export class ListadoUsuariosComponent implements OnInit {
             )
         }
         this.ultimoFiltroAplicado = texto
+    }
+    nuevoUsuarioSolicitado(){
+        if(! this.#asegurarEstado([EstadoDelComponente.SIN_SELECCIONADOS, EstadoDelComponente.CON_SELECCIONADOS], null)) return
+        this.#estado = EstadoDelComponente.NUEVO_USUARIO;
+        this.#idsUsuariosSeleccionados = [ ];
+    }
+    cancelarNuevoUsuario(){
+        if(! this.#asegurarEstado([EstadoDelComponente.NUEVO_USUARIO], null)) return
+        this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
+
+    }
+    guardarUsuario(evento:UsuarioGuardadoEvent){
+        console.log("GUARDAR USUARIO mediante servicio de backend:", evento.usuario)
+        this.#datosUsuariosOriginales.push(evento.usuario)
+        this.#datosUsuarios = this.#datosUsuariosOriginales
+        // OJO ^^^^Esto en la realidad lo haríamos tras recibir confirmación del servicio de BackEnd
+        this.#estado = EstadoDelComponente.SIN_SELECCIONADOS;
     }
 
 }

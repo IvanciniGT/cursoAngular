@@ -45,7 +45,10 @@
      </div>
 
      <div *ngIf="this.estado === this.Estados.NUEVO_USUARIO">
-         <usuario-formulario></usuario-formulario>
+         <usuario-formulario
+         (onGuardado)="this.guardarUsuario($event)"
+         (onCancelado)="this.cancelarNuevoUsuario()"
+         ></usuario-formulario>
      </div>
      <hr/>
      <!-- El listado de usuarios -->
