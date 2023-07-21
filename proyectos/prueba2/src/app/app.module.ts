@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './components/app/app.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
@@ -10,6 +11,7 @@ import { AccionConfirmableComponent } from './components/accion-confirmable/acci
 import { ListadoUsuariosComponent } from './components/listado-usuarios/listado.usuarios.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsuarioFormularioComponent } from './components/usuario-formulario/usuario.formulario.component';
+import { ServicioUsuariosImpl } from './services/impl/usuarios.service.impl';
 
 @NgModule({
   // Aquí definiremos nuestros propios componentes web (nuestras marcas HTML personalizadas)
@@ -25,11 +27,12 @@ import { UsuarioFormularioComponent } from './components/usuario-formulario/usua
   // Otros modulos de Angular que necesitamos para que nuestra aplicación funcione
   imports: [
     BrowserModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   // Servicios que necesitamos para que nuestra aplicación funcione
   // Por ejemplo: quiero tener TAL suministrador de diccionarios
-  providers: [{ provide: ServicioUsuarios, useClass: ServicioUsuariosMock}], // Aqui estamos configurando la Inyección de dependencias
+  providers: [{ provide: ServicioUsuarios, useClass: ServicioUsuariosImpl}],//ServicioUsuariosMock}], // Aqui estamos configurando la Inyección de dependencias
                                     // Eso funcionaría si esa clase se fuese a pedir tal cual
   
   // Componentes que vamos a iniciar cuando se cargue la aplicación

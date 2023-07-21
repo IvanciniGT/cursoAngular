@@ -133,3 +133,7 @@ Vamos a montar un servidor de Backend de mentirijilla!
 Para qué? Para probar otra comunicación.... para aislar a otro componente... dando un elemento B con el que se comunique controlado... que sé la respuesta que va a mandar
 
 A qué componente me refiero? El servicio
+
+Ahora, gracias al servidor de mentirijilla: FAKE vamos a probar el componente Servicio
+Pero me vale esto para una prueba unitaria del Componente WEB usuario? No
+En esa prueba lo que quiero es aislar al <usuario> del servicio... no al servicio del backend
