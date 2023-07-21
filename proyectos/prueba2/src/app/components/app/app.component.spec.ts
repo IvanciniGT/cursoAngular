@@ -1,9 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
     declarations: [AppComponent]
+//    , imports: [HttpClientModule]
+//    , providers: [MOCK/fake...]
   }));
 
   it('should create the app', () => {
