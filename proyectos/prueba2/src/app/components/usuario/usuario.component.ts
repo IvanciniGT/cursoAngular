@@ -104,6 +104,8 @@ export class UsuarioComponent implements OnInit, OnChanges {
     // Esta función se dispara cuando un Input cambia en el tiempo
     // posterior a su carga inicial
     ngOnChanges(){
+        if(this.#estado === EstadoDelComponente.SELECCIONADO ||
+            this.#estado === EstadoDelComponente.NORMAL)
         this.#estado = this.seleccionado ? EstadoDelComponente.SELECCIONADO: EstadoDelComponente.NORMAL;
     }
 
@@ -113,6 +115,7 @@ export class UsuarioComponent implements OnInit, OnChanges {
 
     // MAQUINA DE ESTADOS FINITOS
     cambiarEstado(event:any) : void{
+        console.log(this.estado)
         switch(this.estado){
             case EstadoDelComponente.NORMAL:
                 if (event instanceof AccionSolicitadaEvent){
@@ -135,6 +138,7 @@ export class UsuarioComponent implements OnInit, OnChanges {
                 }
                 break
             case EstadoDelComponente.EN_MODIFICACION:
+                console.log(event)
                 if( event.actionId === "edicion" ){
                     if (event instanceof AccionCanceladaEvent){
                         this.#estado =EstadoDelComponente.NORMAL
